@@ -1,6 +1,5 @@
 <template>
-  <div class="container">
-  </div>
+  <div class="container"></div>
 </template>
 <script>
 import Viewer from "./photo.js";
@@ -12,6 +11,7 @@ export default {
   data() {
     return {
       progress: "",
+      bkPicture: "/photos/bg.png",
       pictures: [
         "/photos/p01.png",
         "/photos/p02.png",
@@ -45,7 +45,7 @@ export default {
   },
   methods: {
     initScene: function () {
-      this.viewer = new Viewer(".container", event);
+      this.viewer = new Viewer(".container", event, this.bkPicture);
       this.viewer.createPhotos(this.pictures);
       event.on("progress", (v) => {
         this.progress = Math.round(v * 100);

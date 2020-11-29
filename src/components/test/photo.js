@@ -1,12 +1,13 @@
 import * as THREE from 'three';
 // import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 class viewer {
-    constructor(container, event) {
+    constructor(container, event, bkPicture) {
         this.container = document.querySelector(container);//容器
         this.containerWidth = this.container.offsetWidth;
         this.containerHeight = this.container.offsetHeight;
         window.addEventListener('resize', this.onWindowResize.bind(this), false);
         this.event = event;
+        this.bkPicture = bkPicture;
         this.init();
         const clock = new THREE.Clock();
         const animate = () => {
@@ -31,7 +32,7 @@ class viewer {
     init() {
         this.scene = new THREE.Scene();
 
-        this.scene.background = new THREE.TextureLoader().load('/photos/bg.png');
+        this.scene.background = new THREE.TextureLoader().load(this.bkPicture);
         this.scene.add(new THREE.AmbientLight(0xFFFFFF, 1));//添加环境光
         const light = new THREE.PointLight(0xFFD700, 1.3, 20);
         light.position.set(-3.5, 0, 0);
