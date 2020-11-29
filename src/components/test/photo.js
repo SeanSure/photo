@@ -32,6 +32,7 @@ class viewer {
     init() {
         this.scene = new THREE.Scene();
 
+        console.log(13123223213,this.bkPicture);
         this.scene.background = new THREE.TextureLoader().load(this.bkPicture);
         this.scene.add(new THREE.AmbientLight(0xFFFFFF, 1));//添加环境光
         const light = new THREE.PointLight(0xFFD700, 1.3, 20);
