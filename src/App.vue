@@ -1,7 +1,8 @@
 <template>
   <div id="app">
-     <div class="container">
-  </div>
+    <div class="container">
+      <div v-if="progress != 100" class="progress">{{ this.progress }}%</div>
+    </div>
   </div>
 </template>
 <script>
@@ -14,6 +15,7 @@ export default {
   data() {
     return {
       progress: "",
+      bkPicture: "/photos/bg.png",
       pictures: [
         "./photos/p01.png",
         "./photos/p02.png",
@@ -47,11 +49,11 @@ export default {
   },
   methods: {
     initScene: function () {
-      this.viewer = new Viewer(".container", event);
+      this.viewer = new Viewer(".container", event, this.bkPicture);
       this.viewer.createPhotos(this.pictures);
       event.on("progress", (v) => {
         this.progress = Math.round(v * 100);
-        console.log(this.progress);
+        // console.log(this.progress);
       });
     },
   },
@@ -75,5 +77,13 @@ export default {
   position: absolute;
   left: 0;
   top: 0;
+}
+.progress {
+  position: absolute;
+  z-index: 1;
+  left: 200px;
+  top: 50px;
+  font-size: 18px;
+  color: white;
 }
 </style>
