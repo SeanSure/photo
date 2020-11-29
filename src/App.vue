@@ -50,6 +50,7 @@ export default {
   methods: {
     initScene: function () {
       this.viewer = new Viewer(".container", event, this.bkPicture);
+      
       this.viewer.createPhotos(this.pictures);
       event.on("progress", (v) => {
         this.progress = Math.round(v * 100);
