@@ -15,7 +15,7 @@ export default {
   data() {
     return {
       progress: "",
-      bkPicture: "/photos/bg.png",
+      bkPicture: "./photos/bg.png",
       pictures: [
         "./photos/p01.png",
         "./photos/p02.png",
