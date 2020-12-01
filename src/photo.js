@@ -121,7 +121,7 @@ class viewer {
         this.textureLoader.load(img, texture => {
             // texture.anisotropy = 16;
             // const material = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide, map: texture, transparent: !0 });
-            const material = new THREE.MeshStandardMaterial({ color: 0xffffff, side: THREE.DoubleSide, map: texture, transparent: !0 });
+            const material = new THREE.MeshStandardMaterial({ color: 0xffffff, side: THREE.FrontSide, map: texture, transparent: !0 });
 
             const plane = new THREE.Mesh(geometry, material);
 
