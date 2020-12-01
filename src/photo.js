@@ -26,7 +26,7 @@ class viewer {
                     this.model.angle = 0;
                 } else {
                     this.model.rotateY(angle);
-                    this.model.position.y += THREE.Math.radToDeg(angle) * 0.7 / 13;
+                    this.model.position.y += THREE.Math.radToDeg(angle) * 0.8 / 13;
                 }
             }
         }
@@ -39,10 +39,10 @@ class viewer {
         this.scene.background = new THREE.TextureLoader().load(this.bkPicture);
         this.scene.add(new THREE.AmbientLight(0xFFFFFF, 1));//添加环境光
         const light = new THREE.PointLight(0xFFD700, 1.3, 20);
-        light.position.set(-8, 0, 0);
+        light.position.set(-9, 0, 0);
         this.scene.add(light);
 
-        this.camera = new THREE.PerspectiveCamera(75, this.containerWidth / this.containerHeight, 0.1, 1000.00);//相机
+        this.camera = new THREE.PerspectiveCamera(77, this.containerWidth / this.containerHeight, 0.1, 1000.00);//相机
         // this.camera = new THREE.OrthographicCamera( -7.5, 0, 10, -10, 0.1, 100 );
         this.camera.position.set(-8, 0, 13);
         // this.camera.position.set(-7.5, 0, 40);
@@ -115,7 +115,7 @@ class viewer {
     }
 
     createPlane(img, theta, index) {
-        const geometry = new THREE.PlaneBufferGeometry(16, 20, 32);
+        const geometry = new THREE.PlaneBufferGeometry(18, 20, 32);
         this.textureLoader.load(img, texture => {
             // texture.anisotropy = 16;
             // const material = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide, map: texture, transparent: !0 });
@@ -124,7 +124,7 @@ class viewer {
             const plane = new THREE.Mesh(geometry, material);
 
             // plane.position.setFromCylindricalCoords(7.5, -theta, 0);
-            plane.position.setFromCylindricalCoords(7.5, -theta, -index * .7);
+            plane.position.setFromCylindricalCoords(7.5, -theta, -index * .8);
             const vector = new THREE.Vector3();
             vector.x = plane.position.x * 2;
             vector.y = plane.position.y;
