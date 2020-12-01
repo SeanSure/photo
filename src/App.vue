@@ -161,5 +161,6 @@ export default {
   color: white;
   font-size: 16px;
   text-align: center;
+  line-height: 600px;
 }
 </style>
