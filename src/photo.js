@@ -26,7 +26,7 @@ class viewer {
                     this.model.angle = 0;
                 } else {
                     this.model.rotateY(angle);
-                    this.model.position.y += THREE.Math.radToDeg(angle) * 0.8 / 13;
+                    this.model.position.y += THREE.Math.radToDeg(angle) * 0.9 / 15;
                 }
             }
         }
@@ -39,12 +39,14 @@ class viewer {
         this.scene.background = new THREE.TextureLoader().load(this.bkPicture);
         this.scene.add(new THREE.AmbientLight(0xFFFFFF, 1));//添加环境光
         const light = new THREE.PointLight(0xFFD700, 1.3, 20);
-        light.position.set(-9, 0, 0);
+        this.photoWidth = 16;
+        this.photoHeight = 20;
+        light.position.set(-this.photoWidth / 2, 0, 0);
         this.scene.add(light);
 
-        this.camera = new THREE.PerspectiveCamera(77, this.containerWidth / this.containerHeight, 0.1, 1000.00);//相机
+        this.camera = new THREE.PerspectiveCamera(80, this.containerWidth / this.containerHeight, 0.1, 1000.00);//相机
         // this.camera = new THREE.OrthographicCamera( -7.5, 0, 10, -10, 0.1, 100 );
-        this.camera.position.set(-8, 0, 13);
+        this.camera.position.set(-this.photoWidth / 2, 0, 12);
         // this.camera.position.set(-7.5, 0, 40);
         // this.camera.position.set(0, 0, 30);
         const rendererPar = {//渲染器参数设置
@@ -115,16 +117,16 @@ class viewer {
     }
 
     createPlane(img, theta, index) {
-        const geometry = new THREE.PlaneBufferGeometry(18, 20, 32);
+        const geometry = new THREE.PlaneBufferGeometry(this.photoWidth, this.photoHeight, 32);
         this.textureLoader.load(img, texture => {
             // texture.anisotropy = 16;
             // const material = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide, map: texture, transparent: !0 });
-            const material = new THREE.MeshStandardMaterial({ color: 0xffffff, side: THREE.FrontSide, map: texture, transparent: !0 });
+            const material = new THREE.MeshStandardMaterial({ color: 0xffffff, side: THREE.DoubleSide, map: texture, transparent: !0 });
 
             const plane = new THREE.Mesh(geometry, material);
 
             // plane.position.setFromCylindricalCoords(7.5, -theta, 0);
-            plane.position.setFromCylindricalCoords(7.5, -theta, -index * .8);
+            plane.position.setFromCylindricalCoords(this.photoWidth / 2, -theta, -index * 0.9);
             const vector = new THREE.Vector3();
             vector.x = plane.position.x * 2;
             vector.y = plane.position.y;
@@ -142,7 +144,7 @@ class viewer {
 
     createPhotos(pictures) {
         this.tTotal = pictures.length;
-        this.totalAngle = 13 * this.tTotal;
+        this.totalAngle = 15 * this.tTotal;
         this.progress = 0;
         pictures.forEach((p, index) => {
             const angle = this.totalAngle * (index / this.tTotal)
