@@ -26,7 +26,7 @@ class viewer {
                     this.model.angle = 0;
                 } else {
                     this.model.rotateY(angle);
-                    this.model.position.y += THREE.Math.radToDeg(angle) * 0.9 / 15;
+                    this.model.position.y += THREE.Math.radToDeg(angle) * 1.8 / 10;
                 }
             }
         }
@@ -46,7 +46,7 @@ class viewer {
 
         this.camera = new THREE.PerspectiveCamera(80, this.containerWidth / this.containerHeight, 0.1, 1000.00);//相机
         // this.camera = new THREE.OrthographicCamera( -7.5, 0, 10, -10, 0.1, 100 );
-        this.camera.position.set(-this.photoWidth / 2, 0, 12);
+        this.camera.position.set(-this.photoWidth *2, 0, 12);
         // this.camera.position.set(-7.5, 0, 40);
         // this.camera.position.set(0, 0, 30);
         const rendererPar = {//渲染器参数设置
@@ -126,7 +126,7 @@ class viewer {
             const plane = new THREE.Mesh(geometry, material);
 
             // plane.position.setFromCylindricalCoords(7.5, -theta, 0);
-            plane.position.setFromCylindricalCoords(this.photoWidth / 2, -theta, -index * 0.9);
+            plane.position.setFromCylindricalCoords(this.photoWidth *2, -theta, -index * 1.8);
             const vector = new THREE.Vector3();
             vector.x = plane.position.x * 2;
             vector.y = plane.position.y;
@@ -144,7 +144,7 @@ class viewer {
 
     createPhotos(pictures) {
         this.tTotal = pictures.length;
-        this.totalAngle = 15 * this.tTotal;
+        this.totalAngle = 10 * this.tTotal;
         this.progress = 0;
         pictures.forEach((p, index) => {
             const angle = this.totalAngle * (index / this.tTotal)
