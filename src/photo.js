@@ -18,7 +18,6 @@ class viewer {
                 this.model.angle += angle;
                 // this.model.rotateY(angle);
                 // this.model.position.y += THREE.Math.radToDeg(angle) * 0.7 /10;
-                // console.log(this.model.angle);
 
                 if (this.model.angle >= THREE.Math.degToRad(this.totalAngle)) {
                     this.model.angle = THREE.Math.degToRad(this.totalAngle);
@@ -41,12 +40,12 @@ class viewer {
         const light = new THREE.PointLight(0xFFD700, 1.3, 20);
         this.photoWidth = 16;
         this.photoHeight = 20;
-        light.position.set(-this.photoWidth / 2, 0, 0);
+        light.position.set(-this.photoWidth * 2, 0, 0);
         this.scene.add(light);
 
         this.camera = new THREE.PerspectiveCamera(80, this.containerWidth / this.containerHeight, 0.1, 1000.00);//相机
         // this.camera = new THREE.OrthographicCamera( -7.5, 0, 10, -10, 0.1, 100 );
-        this.camera.position.set(-this.photoWidth *2, 0, 12);
+        this.camera.position.set(-this.photoWidth * 2, 0, 12);
         // this.camera.position.set(-7.5, 0, 40);
         // this.camera.position.set(0, 0, 30);
         const rendererPar = {//渲染器参数设置
@@ -126,7 +125,7 @@ class viewer {
             const plane = new THREE.Mesh(geometry, material);
 
             // plane.position.setFromCylindricalCoords(7.5, -theta, 0);
-            plane.position.setFromCylindricalCoords(this.photoWidth *2, -theta, -index * 1.8);
+            plane.position.setFromCylindricalCoords(this.photoWidth * 2, -theta, -index * 1.8);
             const vector = new THREE.Vector3();
             vector.x = plane.position.x * 2;
             vector.y = plane.position.y;
