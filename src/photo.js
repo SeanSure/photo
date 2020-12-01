@@ -25,9 +25,15 @@ class viewer {
                     this.model.angle = 0;
                 } else {
                     this.model.rotateY(angle);
-                    this.model.position.y += THREE.Math.radToDeg(angle) * 1.8 / 10;
+                    // this.model.position.y += THREE.Math.radToDeg(angle) * 1.8 / 10;
                 }
+
             }
+            this.model.children.forEach(v => {
+                if (Math.abs(this.model.angle - v.angle) <= Math.PI / 2) {
+                    v.visible = !0;
+                } else v.visible = !!0;
+            })
         }
         animate();
     }
@@ -36,16 +42,16 @@ class viewer {
         this.scene = new THREE.Scene();
 
         this.scene.background = new THREE.TextureLoader().load(this.bkPicture);
-        this.scene.add(new THREE.AmbientLight(0xFFFFFF, 1));//添加环境光
-        const light = new THREE.PointLight(0xFFD700, 1.3, 20);
-        this.photoWidth = 16;
+        this.scene.add(new THREE.AmbientLight(0xFFFFFF, 0.9));//添加环境光
+        const light = new THREE.PointLight(0xFFD700, 1.2, 100, 1);
+        this.photoWidth = 12;
         this.photoHeight = 20;
-        light.position.set(-this.photoWidth * 2, 0, 0);
+        light.position.set(-this.photoWidth , 0, 1);
         this.scene.add(light);
 
         this.camera = new THREE.PerspectiveCamera(80, this.containerWidth / this.containerHeight, 0.1, 1000.00);//相机
         // this.camera = new THREE.OrthographicCamera( -7.5, 0, 10, -10, 0.1, 100 );
-        this.camera.position.set(-this.photoWidth * 2, 0, 12);
+        this.camera.position.set(-this.photoWidth * 1, 0, 12);
         // this.camera.position.set(-7.5, 0, 40);
         // this.camera.position.set(0, 0, 30);
         const rendererPar = {//渲染器参数设置
@@ -115,7 +121,7 @@ class viewer {
         this.renderer.setSize(this.containerWidth, this.containerHeight);
     }
 
-    createPlane(img, theta, index) {
+    createPlane(img, theta) {
         const geometry = new THREE.PlaneBufferGeometry(this.photoWidth, this.photoHeight, 32);
         this.textureLoader.load(img, texture => {
             // texture.anisotropy = 16;
@@ -125,11 +131,12 @@ class viewer {
             const plane = new THREE.Mesh(geometry, material);
 
             // plane.position.setFromCylindricalCoords(7.5, -theta, 0);
-            plane.position.setFromCylindricalCoords(this.photoWidth * 2, -theta, -index * 1.8);
+            plane.position.setFromCylindricalCoords(this.photoWidth * 1, -theta, 0);
             const vector = new THREE.Vector3();
             vector.x = plane.position.x * 2;
             vector.y = plane.position.y;
             vector.z = plane.position.z * 2;
+            plane.angle = theta;
 
             plane.lookAt(vector);
             // plane.lookAt(new THREE.Vector3());
@@ -143,12 +150,13 @@ class viewer {
 
     createPhotos(pictures) {
         this.tTotal = pictures.length;
-        this.totalAngle = 10 * this.tTotal;
+        this.totalAngle = 15 * this.tTotal;
         this.progress = 0;
         pictures.forEach((p, index) => {
-            const angle = this.totalAngle * (index / this.tTotal)
+            // const angle = this.totalAngle * (index / this.tTotal);
+            const angle = 15 * index;
             let theta = THREE.Math.degToRad(angle);
-            this.createPlane(p, theta, index);
+            this.createPlane(p, theta);
         })
 
     }
