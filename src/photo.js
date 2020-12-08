@@ -15,9 +15,8 @@ class viewer {
             this.renderer.render(this.scene, this.camera);
             if (this.dir && this.speed) {
                 const angle = clock.getDelta() * this.dir * this.speed;
+
                 this.model.angle += angle;
-                // this.model.rotateY(angle);
-                // this.model.position.y += THREE.Math.radToDeg(angle) * 0.7 /10;
 
                 if (this.model.angle >= THREE.Math.degToRad(this.totalAngle)) {
                     this.model.angle = THREE.Math.degToRad(this.totalAngle);
@@ -25,15 +24,18 @@ class viewer {
                     this.model.angle = 0;
                 } else {
                     this.model.rotateY(angle);
-                    // this.model.position.y += THREE.Math.radToDeg(angle) * 1.8 / 10;
                 }
+                this.model.children.forEach(v => {
+                    if (Math.abs(this.model.angle - v.angle) <= Math.PI) {
+                        if (!v.visible) v.visible = !0;
+                    } else {
+                        if (v.visible) v.visible = !!0;
+                    }
+                })
 
             }
-            this.model.children.forEach(v => {
-                if (Math.abs(this.model.angle - v.angle) <= Math.PI / 2) {
-                    v.visible = !0;
-                } else v.visible = !!0;
-            })
+
+
         }
         animate();
     }
@@ -46,12 +48,12 @@ class viewer {
         const light = new THREE.PointLight(0xFFD700, 1.2, 100, 1);
         this.photoWidth = 12;
         this.photoHeight = 20;
-        light.position.set(-this.photoWidth , 0, 1);
+        light.position.set(-this.photoWidth, 0, 1);
         this.scene.add(light);
 
         this.camera = new THREE.PerspectiveCamera(80, this.containerWidth / this.containerHeight, 0.1, 1000.00);//相机
         // this.camera = new THREE.OrthographicCamera( -7.5, 0, 10, -10, 0.1, 100 );
-        this.camera.position.set(-this.photoWidth * 1, 0, 12);
+        this.camera.position.set(-this.photoWidth, 0, 12);
         // this.camera.position.set(-7.5, 0, 40);
         // this.camera.position.set(0, 0, 30);
         const rendererPar = {//渲染器参数设置
@@ -59,7 +61,7 @@ class viewer {
             antialias: !0,
             logarithmicDepthBuffer: !!0,
             depth: !0,
-            preserveDrawingBuffer: !0
+            preserveDrawingBuffer: !!0
         };
 
         this.renderer = new THREE.WebGLRenderer(rendererPar);
@@ -131,7 +133,7 @@ class viewer {
             const plane = new THREE.Mesh(geometry, material);
 
             // plane.position.setFromCylindricalCoords(7.5, -theta, 0);
-            plane.position.setFromCylindricalCoords(this.photoWidth * 1, -theta, 0);
+            plane.position.setFromCylindricalCoords(this.photoWidth, -theta, 0);
             const vector = new THREE.Vector3();
             vector.x = plane.position.x * 2;
             vector.y = plane.position.y;
@@ -141,6 +143,7 @@ class viewer {
             plane.lookAt(vector);
             // plane.lookAt(new THREE.Vector3());
             plane.rotateY(Math.PI / 2);
+            if (theta >= Math.PI) plane.visible = !!0;
             this.model.add(plane);
             this.progress++;
             this.event.emit("progress", this.progress / this.tTotal);
@@ -150,7 +153,7 @@ class viewer {
 
     createPhotos(pictures) {
         this.tTotal = pictures.length;
-        this.totalAngle = 15 * this.tTotal;
+        this.totalAngle = 15 * (this.tTotal - 1);
         this.progress = 0;
         pictures.forEach((p, index) => {
             // const angle = this.totalAngle * (index / this.tTotal);
