@@ -1,5 +1,7 @@
 # photo
 
+
+![image](https://raw.githubusercontent.com/SeanSure/photo/main/img/image.png)
 ## Project setup
 ```
 npm install
